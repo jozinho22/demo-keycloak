@@ -1,0 +1,11 @@
+server :
+  port: 8888
+  logging:
+    level:
+      org.spring.framework.web: DEBUG
+
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: jozinho
+  resource: brazil-demo-app
+  public-client: true
