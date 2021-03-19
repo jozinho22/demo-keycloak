@@ -8,4 +8,8 @@ keycloak:
   auth-server-url: http://localhost:8080/auth
   realm: jozinho
   resource: brazil-demo-app
+  ssl-required: external
   public-client: true
+  use-resource-role-mappings: true
+  securityConstraints[0].authRoles[0]: user
+
