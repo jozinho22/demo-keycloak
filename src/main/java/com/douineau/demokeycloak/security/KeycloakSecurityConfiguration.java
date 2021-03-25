@@ -9,11 +9,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 @Configuration
 public class KeycloakSecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter {
+
+    private final JwtConfig jwtConfig;
+
+    @Autowired
+    public KeycloakSecurityConfiguration(JwtConfig jwtConfig) {
+        super();
+        this.jwtConfig = jwtConfig;
+    }
 
     @Override
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
@@ -33,6 +42,8 @@ public class KeycloakSecurityConfiguration extends KeycloakWebSecurityConfigurer
     @Override
     public void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http.authorizeRequests().antMatchers("/players").authenticated();
+        http
+//                .addFilterBefore(new JwtTokenFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests().antMatchers("/players").authenticated();
     }
 }

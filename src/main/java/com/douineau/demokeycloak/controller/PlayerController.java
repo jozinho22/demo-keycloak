@@ -1,6 +1,9 @@
 package com.douineau.demokeycloak.controller;
 
 import com.douineau.demokeycloak.model.Player;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +12,9 @@ import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PlayerController {
@@ -40,5 +45,17 @@ public class PlayerController {
         req.logout();
 
         return "/";
+    }
+
+    @GetMapping("/jwt")
+//    @RolesAllowed("user")
+    public Map<String, String> jwt(HttpServletRequest req) throws ServletException {
+        KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) req.getUserPrincipal();
+        KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
+        KeycloakSecurityContext ctx = principal.getKeycloakSecurityContext();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("access_token", ctx.getTokenString());
+        return map;
     }
 }

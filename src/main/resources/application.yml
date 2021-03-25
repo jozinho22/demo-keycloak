@@ -11,5 +11,4 @@ keycloak:
   ssl-required: external
   public-client: true
   use-resource-role-mappings: true
-  securityConstraints[0].authRoles[0]: user
-
+  #securityConstraints[0].authRoles[0]: user
